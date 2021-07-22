@@ -27,7 +27,11 @@
         "line-by-line",
         "csv",
         "parse",
-        "parser"
+        "parser",
+        "line by line",
+        "read line",
+        "reader",
+        "line reader"
     ],
     "author": "Paya",
     "license": "MIT",
