@@ -16,7 +16,7 @@ export function createSinkStream(withError: boolean): stream.Writable {
     });
 }
 
-export function createLineCountingStream(): {
+export function createChunkCountingStream(): {
     stream: stream.Transform,
     getCount: () => number,
 } {
@@ -50,8 +50,10 @@ async function* generate(withError: boolean): AsyncGenerator<Buffer, void, void>
         yield Buffer.from(`line ${i}\n`, 'ascii');
     }
 
+    yield Buffer.from('line 4096', 'ascii');
+
     if (withError) {
-        yield Buffer.from('line just before error\n', 'ascii');
+        yield Buffer.from('\nline just before error\n', 'ascii');
         throwGenerateError();
         yield Buffer.from('this should never return\n', 'ascii');
     }

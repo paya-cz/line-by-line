@@ -1,22 +1,23 @@
 import EventEmitter, { once } from 'events';
 import stream from 'stream';
-import { lineByLine } from './line-by-line-iterator';
+import { iterateStreamLines } from './line-by-line-iterator';
 
 /**
  * Creates a transform stream:
  * - `Writable` side: standard non-`objectMode` stream.
  * - `Readable` side: object mode, returns a `string` for each line.
+ * 
+ * @param encoding Optional encoding to use when decoding the stream into text. Default: `utf8`
  * @returns Transform stream that converts a stream of bytes into line strings.
  */
-export function createLineByLineStream(): stream.Transform {
+export function createLineByLineStream(encoding?: BufferEncoding): stream.Transform {
     // Used to signal when the iterator requested more data to process
     const readableEvents = new EventEmitter();
 
     // Readable stream used to feed the iterator
     const readable = new stream.Readable({
-        autoDestroy: true,
-        objectMode: false,
         highWaterMark: 0,
+        encoding,
         read(_size): void {
             readableEvents.emit('resume');
         },
@@ -26,6 +27,7 @@ export function createLineByLineStream(): stream.Transform {
         writableObjectMode: false,
         readableObjectMode: true,
         autoDestroy: true,
+        decodeStrings: false,
         transform(chunk, encoding, callback): void {
             (async () => {
                 try {
@@ -40,7 +42,7 @@ export function createLineByLineStream(): stream.Transform {
         },
         flush(callback): void {
             readable.push(null);
-            whenDone.then(() => callback());
+            whenDone.then(() => callback(), callback);
         },
         destroy(error, callback): void {
             readable.destroy();
@@ -50,7 +52,7 @@ export function createLineByLineStream(): stream.Transform {
 
     const whenDone = new Promise<void>(async resolve => {
         try {
-            for await (const line of lineByLine(readable)) {
+            for await (const line of iterateStreamLines(readable, encoding)) {
                 if (transform.destroyed) {
                     break;
                 } else {

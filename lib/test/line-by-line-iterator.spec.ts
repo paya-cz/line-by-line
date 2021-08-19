@@ -1,5 +1,5 @@
 import { } from 'ts-jest/utils';
-import { lineByLine } from '../line-by-line-iterator';
+import { iterateStreamLines } from '../line-by-line-iterator';
 import { createGeneratorStream } from './spec-utils';
 
 test('iterate-to-completion', async () => {
@@ -7,11 +7,11 @@ test('iterate-to-completion', async () => {
 
     const stream = createGeneratorStream(false);
 
-    for await (const line of lineByLine(stream)) {
+    for await (const line of iterateStreamLines(stream)) {
         lastLine = line;
     }
 
-    expect(lastLine!).toMatch('line 4095');
+    expect(lastLine!).toMatch('line 4096');
 });
 
 test('iterate-break-cleanup', async () => {
@@ -19,7 +19,7 @@ test('iterate-break-cleanup', async () => {
     
     const stream = createGeneratorStream(false);
 
-    for await (const _line of lineByLine(stream)) {
+    for await (const _line of iterateStreamLines(stream)) {
         if (lineIndex++ > 5) {
             break;
         }
@@ -36,7 +36,7 @@ test('iterate-throw-cleanup', async () => {
     const stream = createGeneratorStream(false);
 
     try {
-        for await (const _line of lineByLine(stream)) {
+        for await (const _line of iterateStreamLines(stream)) {
             if (lineIndex++ > 5) {
                 throw new Error('breaker');
             }
@@ -55,12 +55,12 @@ test('iterate-error-propagate', async () => {
     let count = 0;
 
     try {
-        for await (const _line of lineByLine(stream)) {
+        for await (const _line of iterateStreamLines(stream)) {
             count++;
         }
     } catch (error) {
         expect(error.message).toMatch('Generate Error!');
     } finally {
-        expect(count).toStrictEqual(4097);
+        expect(count).toStrictEqual(4098);
     }
 });

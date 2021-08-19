@@ -1,0 +1,5 @@
+.vscode
+lib
+dist/test
+tsconfig.json
+jest.config.js

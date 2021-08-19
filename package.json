@@ -1,7 +1,7 @@
 {
     "name": "@mangosteen/line-by-line",
-    "version": "1.0.0",
-    "description": "Read stream line by line using async iterator or object-mode stream transfrom.",
+    "version": "2.0.0",
+    "description": "Read stream line by line using async iterator or object-mode stream transform.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
@@ -19,19 +19,28 @@
         "stream",
         "transform",
         "async",
+        "iterable",
         "iterator",
         "generator",
         "await",
         "object-mode",
         "line",
         "line-by-line",
+        "lines",
+        "string",
+        "text",
+        "cr",
+        "lf",
+        "crlf",
         "csv",
         "parse",
         "parser",
+        "split",
         "line by line",
         "read line",
         "reader",
-        "line reader"
+        "line reader",
+        "encoding"
     ],
     "author": "Paya",
     "license": "MIT",
@@ -41,9 +50,10 @@
     "homepage": "https://github.com/paya-cz/line-by-line#readme",
     "devDependencies": {
         "@types/jest": "^26.0.24",
-        "@types/node": "^14.17.5",
+        "@types/node": "^14.17.10",
         "jest": "^27.0.6",
-        "ts-jest": "^27.0.4",
+        "ts-jest": "^27.0.5",
+        "ts-node": "^10.2.1",
         "typescript": "^4.3.5"
     }
 }

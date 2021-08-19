@@ -2,12 +2,12 @@ import stream from 'stream';
 import { } from 'ts-jest/utils';
 import { promisify } from 'util';
 import { createLineByLineStream } from '../line-by-line-stream';
-import { createGeneratorStream, createLineCountingStream, createSinkStream } from './spec-utils';
+import { createGeneratorStream, createChunkCountingStream, createSinkStream } from './spec-utils';
 
 const pipeline = promisify(stream.pipeline);
 
 test('stream-to-completion', async () => {
-    const { stream: lineCounter, getCount } = createLineCountingStream();
+    const { stream: lineCounter, getCount } = createChunkCountingStream();
     
     await pipeline(
         createGeneratorStream(false),
@@ -16,7 +16,7 @@ test('stream-to-completion', async () => {
         createSinkStream(false),
     );
 
-    expect(getCount()).toStrictEqual(4096);
+    expect(getCount()).toStrictEqual(4097);
 });
 
 test('stream-source-error', async () => {
