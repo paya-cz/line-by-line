@@ -21,7 +21,7 @@ With [npm](https://www.npmjs.com/) do:
 
 # Usage (string array)
 
-```js
+```ts
 import fs from 'fs/promises';
 import { splitStringLines } from '@mangosteen/line-by-line';
 
@@ -44,7 +44,7 @@ using below functions instead.
 
 # Usage (string iterator)
 
-```js
+```ts
 import fs from 'fs/promises';
 import { iterateStringLines } from '@mangosteen/line-by-line';
 
@@ -66,7 +66,7 @@ be processed efficiently.
 
 # Usage (stream iterator)
 
-```js
+```ts
 import fs from 'fs';
 import { iterateStreamLines } from '@mangosteen/line-by-line';
 
@@ -97,7 +97,7 @@ iterators, because everything gets cleaned up automatically.
 
 # Usage (transform stream)
 
-```js
+```ts
 import fs from 'fs';
 import stream from 'stream';
 import { promisify } from 'util';

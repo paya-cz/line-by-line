@@ -4,11 +4,15 @@
     "description": "Read stream line by line using async iterator or object-mode stream transform.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "engines": {
+        "node": ">=14"
+    },
     "scripts": {
+        "prebuild": "rimraf dist",
         "build": "tsc",
         "test-publish-npm": "npm pack",
         "publish-npm": "npm publish --access public",
-        "prepare": "tsc",
+        "prepublish": "npm run build",
         "test": "jest"
     },
     "repository": {
@@ -49,11 +53,12 @@
     },
     "homepage": "https://github.com/paya-cz/line-by-line#readme",
     "devDependencies": {
-        "@types/jest": "^26.0.24",
-        "@types/node": "^14.17.10",
-        "jest": "^27.0.6",
+        "@types/jest": "^27.0.1",
+        "@types/node": "^14.17.14",
+        "jest": "^27.1.0",
+        "rimraf": "^3.0.2",
         "ts-jest": "^27.0.5",
         "ts-node": "^10.2.1",
-        "typescript": "^4.3.5"
+        "typescript": "^4.4.2"
     }
 }
